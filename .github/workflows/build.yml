@@ -127,7 +127,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: scloud-android
-          path: build/app/outputs/flutter-apk/scloud.apk
+          path: scloud.apk
 
   build-ios:
     runs-on: macos-latest
