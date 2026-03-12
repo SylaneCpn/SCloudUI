@@ -15,7 +15,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          channel : stable
       - run: flutter upgrade
 
       - name: Install Linux dependencies
@@ -46,7 +46,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          channel : stable
       - run: flutter upgrade
 
       - name: Install Linux dependencies
@@ -77,7 +77,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          channel : stable
       - run: flutter upgrade
       - run: flutter pub get
       - run: flutter build windows
@@ -97,7 +97,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          channel : stable
       - run: flutter upgrade
       - run: flutter pub get
       - run: flutter build macos
