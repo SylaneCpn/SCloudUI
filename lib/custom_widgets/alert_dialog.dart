@@ -124,17 +124,17 @@ void showConfirmRmDialog(BuildContext context, int index) {
     Navigator.pop(context);
     final report = await state.rmRessource(fullPath);
 
-    if (report == FetchingReport.success) {
+    if (report == FetchingReport.success && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Ressource $name supprimée avec succès !")),
       );
-    } else if (report == FetchingReport.refused) {
+    } else if (report == FetchingReport.refused && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("La ressource $name n'a pas pu être supprimée."),
         ),
       );
-    } else {
+    } else if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

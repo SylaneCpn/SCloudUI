@@ -19,14 +19,17 @@ class NativeDownloader extends Downloader {
       final fileName = path.basename(url);
       final dio = Dio();
       final savePath = "$selectedDir/$fileName";
+      if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Début du téléchergement de : $fileName.')),
       );
+      }
       await dio.download(url, savePath);
-
+      if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Fichier téléchargé à : $savePath')),
       );
+      }
     } else {
       final selectedDir = await FilePicker.platform.saveFile(
         fileName: nameFile,
@@ -36,14 +39,17 @@ class NativeDownloader extends Downloader {
       final fileName = path.basename(url);
       final dio = Dio();
       final savePath = selectedDir;
+      if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Début du téléchergement de : $fileName.')),
       );
+      }
       await dio.download(url, savePath);
-
+      if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Fichier téléchargé à : $savePath')),
       );
+      }
     }
   }
 }

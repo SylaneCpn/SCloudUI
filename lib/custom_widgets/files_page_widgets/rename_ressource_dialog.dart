@@ -35,21 +35,32 @@ class _RenameRessourceDialogState extends State<RenameRessourceDialog> {
       );
 
       if (result != FetchingReport.success) {
+        if (context.mounted) {
         Navigator.pop(context);
         showSnackBarFailRename(context);
+        }
         return;
       }
-
+      if (context.mounted) {
       Navigator.pop(context);
       showSnackBarSuccessRename(context);
+      }
       final fetchingReport = await state.refreshDir();
 
-      if (fetchingReport == FetchingReport.networkFail)
+      if (fetchingReport == FetchingReport.networkFail && context.mounted)
+      {
         showSnackBarNetworkFail(context);
-      if (fetchingReport == FetchingReport.refused)
+      }
+      if (fetchingReport == FetchingReport.refused && context.mounted)
+       {
         showSnackBarRefused(context);
+       }
     } catch (e) {
+      if (context.mounted) {
+
+      
       showSnackBarNetworkFail(context);
+      }
     }
   }
 

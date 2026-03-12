@@ -5,7 +5,7 @@ import 'package:scloud_ui/data_structures/appstate.dart';
 import 'package:scloud_ui/data_structures/fetching_report.dart';
 import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
 
-// ignore: must_be_immutable
+
 class LoginForm extends StatefulWidget {
   final Function() backCallback;
   const LoginForm({super.key, required this.backCallback});

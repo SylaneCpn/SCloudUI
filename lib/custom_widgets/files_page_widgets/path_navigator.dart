@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
 import 'package:scloud_ui/data_structures/appstate.dart';
@@ -68,11 +67,9 @@ class _PathNavigatorState extends State<PathNavigator> {
                   final report = await state.getNextDir(
                     constructPath(splitedPath, index),
                   );
-                  if (report == FetchingReport.refused) {
-                    // ignore: use_build_context_synchronously
+                  if (report == FetchingReport.refused && context.mounted) {
                     showSnackBarRefused(context);
-                  } else if (report == FetchingReport.networkFail) {
-                    // ignore: use_build_context_synchronously
+                  } else if (report == FetchingReport.networkFail && context.mounted) {
                     showSnackBarNetworkFail(context);
                   }
                   resetSelectedIndex();

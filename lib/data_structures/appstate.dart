@@ -121,6 +121,7 @@ class AppState extends ChangeNotifier {
       final downloader = Downloader.init();
       await downloader.download(context, url, filesInPath[index].name);
     } catch (e) {
+      if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -128,6 +129,7 @@ class AppState extends ChangeNotifier {
           ),
         ),
       );
+      }
     }
   }
 

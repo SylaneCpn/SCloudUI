@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -85,25 +85,29 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
         }
       }
 
-      if (results.any((elem) => elem == FetchingReport.inputFail)) {
+      if (results.any((elem) => elem == FetchingReport.inputFail) && context.mounted) {
         Navigator.pop(context);
         showSnackBarFailFileSend(context);
-      } else if (results.any((elem) => elem != FetchingReport.success)) {
+      } else if (results.any((elem) => elem != FetchingReport.success) && context.mounted) {
         Navigator.pop(context);
         showSnackBarFailFileSend(context);
-      } else {
+      } else if (context.mounted) {
         Navigator.pop(context);
         showSnackBarSuccessFileSend(context);
       }
 
       final fetchingReport = await state.refreshDir();
 
-      if (fetchingReport == FetchingReport.networkFail)
+      if (fetchingReport == FetchingReport.networkFail && context.mounted) {
         showSnackBarNetworkFail(context);
-      if (fetchingReport == FetchingReport.refused)
+      }
+      if (fetchingReport == FetchingReport.refused && context.mounted) {
         showSnackBarRefused(context);
+      }
     } catch (e) {
+      if (context.mounted) {
       showSnackBarNetworkFail(context);
+      }
     }
   }
 
@@ -122,22 +126,27 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       final state = context.read<AppState>();
       final result = await state.addDir(makeValidName(nameController.text));
 
-      if (result != FetchingReport.success) {
+      if (result != FetchingReport.success && context.mounted) {
         Navigator.pop(context);
         showSnackBarFailDirAdd(context);
         return;
       }
-
+      if (context.mounted) {
       Navigator.pop(context);
       showSnackBarSuccessDirAdd(context);
+      }
       final fetchingReport = await state.refreshDir();
 
-      if (fetchingReport == FetchingReport.networkFail)
+      if (fetchingReport == FetchingReport.networkFail && context.mounted) {
         showSnackBarNetworkFail(context);
-      if (fetchingReport == FetchingReport.refused)
+      }
+      if (fetchingReport == FetchingReport.refused && context.mounted) {
         showSnackBarRefused(context);
+      }
     } catch (e) {
+      if (context.mounted) {
       showSnackBarNetworkFail(context);
+      }
     }
   }
 
@@ -161,34 +170,29 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
     final wid = switch (widgetState) {
       AddRessourceState.init => AlertDialog(
         title: title,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text('Fichier'),
-              leading: Radio<RessourceType>(
-                value: RessourceType.file,
-                groupValue: selectedType,
-                onChanged: (RessourceType? value) {
-                  setState(() {
-                    selectedType = value;
-                  });
-                },
+        content: RadioGroup(
+          groupValue: selectedType,
+          onChanged: (value) => setState(() {
+            selectedType = value;
+          }) ,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Fichier'),
+                leading: Radio<RessourceType>(
+                  value: RessourceType.file,
+                ),
               ),
-            ),
-            ListTile(
-              title: Text('Dossier'),
-              leading: Radio<RessourceType>(
-                value: RessourceType.directory,
-                groupValue: selectedType,
-                onChanged: (RessourceType? value) {
-                  setState(() {
-                    selectedType = value;
-                  });
-                },
+              ListTile(
+                title: Text('Dossier'),
+                leading: Radio<RessourceType>(
+                  value: RessourceType.directory,
+                
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         actions: [
           TextButton(

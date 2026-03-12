@@ -38,7 +38,7 @@ class App extends StatelessWidget {
         fontFamily: "Rubik",
         colorScheme: ColorScheme.fromSeed(seedColor: state.appColor),
         appBarTheme: AppBarTheme(
-          color: state.appColor,
+          backgroundColor: state.appColor,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
         navigationBarTheme: NavigationBarThemeData(

@@ -33,11 +33,11 @@ class FileCard extends StatelessWidget {
 
     final openDir = () async {
       final report = await state.getNextDir(targetPath);
-      if (report == FetchingReport.refused) {
-        // ignore: use_build_context_synchronously
+      if (report == FetchingReport.refused && context.mounted) {
+        
         showSnackBarRefused(context);
-      } else if (report == FetchingReport.networkFail) {
-        // ignore: use_build_context_synchronously
+      } else if (report == FetchingReport.networkFail && context.mounted) {
+
         showSnackBarNetworkFail(context);
       }
     };

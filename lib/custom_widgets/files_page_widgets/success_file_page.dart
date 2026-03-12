@@ -20,22 +20,22 @@ class SuccessFilesPage extends StatelessWidget {
     // back button
     final backTap = () async {
       final report = await state.getPrevDir();
-      if (report == FetchingReport.refused) {
-        // ignore: use_build_context_synchronously
+      if (report == FetchingReport.refused && context.mounted) {
+
         showSnackBarRefused(context);
-      } else if (report == FetchingReport.networkFail) {
-        // ignore: use_build_context_synchronously
+      } else if (report == FetchingReport.networkFail && context.mounted) {
+
         showSnackBarNetworkFail(context);
       }
     };
 
     final refreshTap = () async {
       final report = await state.refreshDir();
-      if (report == FetchingReport.refused) {
-        // ignore: use_build_context_synchronously
+      if (report == FetchingReport.refused && context.mounted) {
+
         showSnackBarRefused(context);
-      } else if (report == FetchingReport.networkFail) {
-        // ignore: use_build_context_synchronously
+      } else if (report == FetchingReport.networkFail && context.mounted) {
+
         showSnackBarNetworkFail(context);
       }
     };
@@ -50,7 +50,7 @@ class SuccessFilesPage extends StatelessWidget {
       );
     };
 
-    if (!state.isRootPath())
+    if (!state.isRootPath()) {
       cards.add(
         Card(
           child: SizedBox(
@@ -58,7 +58,7 @@ class SuccessFilesPage extends StatelessWidget {
           ),
         ),
       );
-
+    }
     //refresh arrow
     cards.add(
       Card(
@@ -72,7 +72,7 @@ class SuccessFilesPage extends StatelessWidget {
     }
 
     //add someting
-    if (!state.isRootPath())
+    if (!state.isRootPath()) {
       cards.add(
         Card(
           child: SizedBox(
@@ -80,6 +80,7 @@ class SuccessFilesPage extends StatelessWidget {
           ),
         ),
       );
+    }
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {

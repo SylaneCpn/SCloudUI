@@ -20,6 +20,7 @@ class WebDownloader extends Downloader {
 
     switch (result.toDart) {
       case 'refused':
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -27,8 +28,10 @@ class WebDownloader extends Downloader {
             ),
           ),
         );
+      }
 
       case 'network_fail':
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -36,21 +39,27 @@ class WebDownloader extends Downloader {
             ),
           ),
         );
+      }
 
       case 'success':
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fichier téléchargé avec succès.')),
         );
+      }
 
       case 'fail':
+      if (context.mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Le téléchargement a échoué.')));
-
+      }
       case _:
+      if (context.mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Téléchargement annulé.')));
+      }
     }
 
     /*       
