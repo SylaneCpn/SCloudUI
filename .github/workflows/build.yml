@@ -39,38 +39,38 @@ jobs:
         with:
           name: scloud-linux-x64
           path: scloud-linux-x64.tar.gz
-  build-linux-arm64:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v4
+  # build-linux-arm64:
+  #   runs-on: ubuntu-24.04-arm
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
-        with:
-          channel : master
-          flutter-version: '3.38.5'
-      - run: flutter upgrade
+  #     - uses: subosito/flutter-action@v2
+  #       with:
+  #         channel : master
+  #         flutter-version: '3.38.5'
+  #     - run: flutter upgrade
 
-      - name: Install Linux dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-          libgtk-3-dev \
-          clang \
-          cmake \
-          ninja-build \
-          pkg-config \
-          liblzma-dev \
-          libmpv-dev  
-      - run: flutter pub get
-      - run: flutter build linux
+  #     - name: Install Linux dependencies
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y \
+  #         libgtk-3-dev \
+  #         clang \
+  #         cmake \
+  #         ninja-build \
+  #         pkg-config \
+  #         liblzma-dev \
+  #         libmpv-dev  
+  #     - run: flutter pub get
+  #     - run: flutter build linux
 
-      - name: Archive Linux Build
-        run: tar -czf scloud-linux-arm64.tar.gz -C build/linux/arm64/release/bundle .
+  #     - name: Archive Linux Build
+  #       run: tar -czf scloud-linux-arm64.tar.gz -C build/linux/arm64/release/bundle .
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: scloud-linux-arm64
-          path: scloud-linux-arm64.tar.gz
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: scloud-linux-arm64
+  #         path: scloud-linux-arm64.tar.gz
   build-windows:
     runs-on: windows-latest
     steps:
@@ -151,7 +151,7 @@ jobs:
   publish:
     needs:
       - build-linux-x64
-      - build-linux-arm64
+      # - build-linux-arm64
       - build-windows
       - build-macos
       - build-android
@@ -171,7 +171,7 @@ jobs:
           name: Release ${{ github.ref_name }}
           files: |
             artifacts/scloud-linux-x64/scloud-linux-x64.tar.gz
-            artifacts/scloud-linux-arm64/scloud-linux-arm64.tar.gz
+            # artifacts/scloud-linux-arm64/scloud-linux-arm64.tar.gz
             artifacts/scloud-windows/scloud-windows.zip
             artifacts/scloud-macos/scloud-macos.zip
             artifacts/scloud-android/scloud.apk
