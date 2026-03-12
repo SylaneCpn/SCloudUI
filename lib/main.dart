@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:SCloudUI/main_page.dart';
+import 'package:scloud_ui/main_page.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

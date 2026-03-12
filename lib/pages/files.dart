@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:SCloudUI/custom_widgets/custom_avatar.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/error_files_page.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/success_file_page.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
+import 'package:scloud_ui/custom_widgets/custom_avatar.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/error_files_page.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/success_file_page.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/default_files_page.dart';
-import 'package:SCloudUI/data_structures/fetching_state.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/default_files_page.dart';
+import 'package:scloud_ui/data_structures/fetching_state.dart';
 
 class FilesPage extends StatelessWidget {
   const FilesPage({super.key});

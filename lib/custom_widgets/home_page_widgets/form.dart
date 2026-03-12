@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:SCloudUI/data_structures/appstate.dart';
-import 'package:SCloudUI/data_structures/fetching_report.dart';
-import 'package:SCloudUI/custom_widgets/alert_dialog.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
+import 'package:scloud_ui/data_structures/fetching_report.dart';
+import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
 
 // ignore: must_be_immutable
 class LoginForm extends StatefulWidget {

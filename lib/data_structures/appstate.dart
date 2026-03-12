@@ -2,13 +2,13 @@ import "dart:typed_data";
 
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
-import "package:SCloudUI/data_structures/downloader/downloader.dart";
-import "package:SCloudUI/data_structures/fetching_report.dart";
-import "package:SCloudUI/data_structures/fetching_state.dart";
-import "package:SCloudUI/data_structures/server_files.dart";
+import "package:scloud_ui/data_structures/downloader/downloader.dart";
+import "package:scloud_ui/data_structures/fetching_report.dart";
+import "package:scloud_ui/data_structures/fetching_state.dart";
+import "package:scloud_ui/data_structures/server_files.dart";
 import "dart:convert";
 import 'dart:io' show File;
-import "package:SCloudUI/utils.dart";
+import "package:scloud_ui/utils.dart";
 
 class AppState extends ChangeNotifier {
   static final addr = "https://sylcpn.ddns.net";

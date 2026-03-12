@@ -4,7 +4,7 @@ import 'dart:js_interop' as js;
 
 import "package:flutter/material.dart";
 
-import "package:SCloudUI/data_structures/downloader/downloader.dart";
+import "package:scloud_ui/data_structures/downloader/downloader.dart";
 
 @js.JS('saveFile')
 external js.JSPromise<js.JSString> saveFile(String url, String name);

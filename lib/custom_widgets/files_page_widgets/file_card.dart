@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/custom_widgets/alert_dialog.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/rename_ressource_dialog.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/single_file_page/single_file.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
-import 'package:SCloudUI/data_structures/fetching_report.dart';
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/rename_ressource_dialog.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/single_file_page/single_file.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
+import 'package:scloud_ui/data_structures/fetching_report.dart';
+import 'package:scloud_ui/utils.dart';
 
 class FileCard extends StatelessWidget {
   const FileCard({super.key, required this.index});

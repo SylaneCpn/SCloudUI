@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/single_file_page/video_player.dart';
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/single_file_page/video_player.dart';
+import 'package:scloud_ui/utils.dart';
 
 class NetworkVideoPlayer extends StatefulWidget {
   final String url;

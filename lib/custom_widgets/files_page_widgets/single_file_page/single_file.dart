@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_highlighting/themes/vs.dart';
 import 'package:pdfrx/pdfrx.dart';
 
-import 'package:SCloudUI/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_highlight_view.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_selectable_text.dart';
-import 'package:SCloudUI/custom_widgets/files_page_widgets/single_file_page/network_video_player.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_highlight_view.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_selectable_text.dart';
+import 'package:scloud_ui/custom_widgets/files_page_widgets/single_file_page/network_video_player.dart';
 
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/utils.dart';
 
 class SingleFile extends StatelessWidget {
   final String url;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/custom_widgets/alert_dialog.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
+import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
 import 'package:collection/collection.dart';
-import 'package:SCloudUI/data_structures/fetching_report.dart';
+import 'package:scloud_ui/data_structures/fetching_report.dart';
 
 class PathNavigator extends StatefulWidget {
   const PathNavigator({super.key});

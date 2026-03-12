@@ -2,7 +2,7 @@ import 'package:path/path.dart' as path;
 import "package:dio/dio.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
-import "package:SCloudUI/data_structures/downloader/downloader.dart";
+import "package:scloud_ui/data_structures/downloader/downloader.dart";
 import 'dart:io';
 
 class NativeDownloader extends Downloader {

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
-import 'package:SCloudUI/data_structures/fetching_report.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
+import 'package:scloud_ui/data_structures/fetching_report.dart';
 
 void showAlertDialogRefused(BuildContext context) {
   AlertDialog alert = AlertDialog(

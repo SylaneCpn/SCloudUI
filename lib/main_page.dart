@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:SCloudUI/pages/files.dart';
-import 'package:SCloudUI/pages/home.dart';
+import 'package:scloud_ui/pages/files.dart';
+import 'package:scloud_ui/pages/home.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

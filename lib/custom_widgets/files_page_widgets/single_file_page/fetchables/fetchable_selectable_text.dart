@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/utils.dart';
 
 class FetchableSelectableText extends StatefulWidget {
   final String url;

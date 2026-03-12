@@ -4,13 +4,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/custom_widgets/alert_dialog.dart';
-import 'package:SCloudUI/custom_widgets/file_list_widget.dart';
-import 'package:SCloudUI/data_structures/add_ressource_state.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
-import 'package:SCloudUI/data_structures/fetching_report.dart';
-import 'package:SCloudUI/data_structures/ressource_type.dart';
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/custom_widgets/alert_dialog.dart';
+import 'package:scloud_ui/custom_widgets/file_list_widget.dart';
+import 'package:scloud_ui/data_structures/add_ressource_state.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
+import 'package:scloud_ui/data_structures/fetching_report.dart';
+import 'package:scloud_ui/data_structures/ressource_type.dart';
+import 'package:scloud_ui/utils.dart';
 
 class AddRessourceDialog extends StatefulWidget {
   const AddRessourceDialog({super.key});

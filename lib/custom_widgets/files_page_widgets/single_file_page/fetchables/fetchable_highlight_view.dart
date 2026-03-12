@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_highlighting/flutter_highlighting.dart';
-import 'package:SCloudUI/utils.dart';
+import 'package:scloud_ui/utils.dart';
 
 class FetchableHighlightView extends StatefulWidget {
   final String url;

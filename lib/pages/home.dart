@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:SCloudUI/custom_widgets/home_page_widgets/connected.dart';
-import 'package:SCloudUI/custom_widgets/home_page_widgets/diconnected.dart';
-import 'package:SCloudUI/data_structures/appstate.dart';
+import 'package:scloud_ui/custom_widgets/home_page_widgets/connected.dart';
+import 'package:scloud_ui/custom_widgets/home_page_widgets/diconnected.dart';
+import 'package:scloud_ui/data_structures/appstate.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
