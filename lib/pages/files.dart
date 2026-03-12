@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:SCloudUI/custom_widgets/custom_avatar.dart';
+import 'package:SCloudUI/custom_widgets/files_page_widgets/error_files_page.dart';
+import 'package:SCloudUI/custom_widgets/files_page_widgets/success_file_page.dart';
+import 'package:SCloudUI/data_structures/appstate.dart';
+import 'package:provider/provider.dart';
+import 'package:SCloudUI/custom_widgets/files_page_widgets/default_files_page.dart';
+import 'package:SCloudUI/data_structures/fetching_state.dart';
+
+class FilesPage extends StatelessWidget {
+  const FilesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final state = context.watch<AppState>();
+    if (state.pathState == FetchingState.init) state.initFilesInPath();
+
+    Widget userPicture =
+        state.isConnected && (state.pathState == FetchingState.success)
+            ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomAvatar(state : state),
+            )
+            : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset('assets/icon/icon_white.png'),
+            );
+
+    final body = switch (state.pathState) {
+      FetchingState.init => DefaultFilesPage(),
+      FetchingState.success => SuccessFilesPage(),
+      FetchingState.failure => ErrorFilesPage(),
+    };
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Fichiers'),
+        leading: GestureDetector(
+          onTap: state.resetFileInPath,
+          child: userPicture,
+        ),
+      ),
+      body: body,
+    );
+  }
+}

@@ -1,0 +1,306 @@
+import "dart:typed_data";
+
+import "package:flutter/material.dart";
+import "package:http/http.dart" as http;
+import "package:SCloudUI/data_structures/downloader/downloader.dart";
+import "package:SCloudUI/data_structures/fetching_report.dart";
+import "package:SCloudUI/data_structures/fetching_state.dart";
+import "package:SCloudUI/data_structures/server_files.dart";
+import "dart:convert";
+import 'dart:io' show File;
+import "package:SCloudUI/utils.dart";
+
+class AppState extends ChangeNotifier {
+  static final addr = "https://sylcpn.ddns.net";
+  String name = "null";
+  String password = "null";
+  String currentPath = "files/";
+  bool isConnected = false;
+  List<ServerFile> filesInPath = [];
+  FetchingState pathState = FetchingState.init;
+  Color appColor = Color.fromARGB(255, 82, 113, 255);
+
+  String parseGetExtPath(String path) => "$addr/usr/$name/psw/$password/$path";
+  String parseUserRootPath() => "$addr/usr/$name/psw/$password/files/$name/";
+  String parseVerifPath(String n, String p) => "$addr/usr/$n/psw/$p/";
+  String parseGetPath() => "$addr/usr/$name/psw/$password/$currentPath";
+  String parseRmPath(String path) => "$addr/rm/usr/$name/psw/$password/$path";
+  String parseAddFilePath(String fileName) =>
+      "$addr/addfile/usr/$name/psw/$password/$currentPath$fileName";
+  String parseAddDirPath(String dirName) =>
+      "$addr/adddir/usr/$name/psw/$password/$currentPath$dirName";
+  String userAvatarPath() =>
+      "$addr/usr/$name/psw/$password/files/$name/portrait.jpg";
+  String parseRenamePath(String path, String newName) =>
+      "$addr/rename/usr/$name/psw/$password/to/$newName/$path";
+  bool isRootPath() => currentPath == "files/";
+
+  Future<FetchingReport> sendFile(String path) async {
+    try {
+      if (!isValidAscii(path)) return FetchingReport.inputFail;
+      //get the file
+      final file = File(path);
+      final body = await file.readAsBytes();
+      final fName = getRessourceName(path);
+
+      // send data to the network
+      final headers = <String, String>{
+        'Content-Type': matchMimetypeFromExt(fName),
+      };
+      final response = await http.post(
+        Uri.parse(parseAddFilePath(fName)),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<FetchingReport> sendFileWeb(String fileName, Uint8List content) async {
+    try {
+      if (!isValidAscii(fileName)) return FetchingReport.inputFail;
+
+      // send data to the network
+      final headers = <String, String>{
+        'Content-Type': matchMimetypeFromExt(fileName),
+      };
+      final response = await http.post(
+        Uri.parse(parseAddFilePath(fileName)),
+        headers: headers,
+        body: content,
+      );
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<FetchingReport> addDir(String dirName) async {
+    try {
+      final response = await http.post(Uri.parse(parseAddDirPath(dirName)));
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<FetchingReport> renameRessource(String path, String newName) async {
+    try {
+      final response = await http.post(
+        Uri.parse(parseRenamePath(path, newName)),
+      );
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<FetchingReport> rmRessource(String path) async {
+    try {
+      final response = await http.delete(Uri.parse(parseRmPath(path)));
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  Future<void> downloadFile(int index, BuildContext context) async {
+    try {
+      final String url = parseGetExtPath(filesInPath[index].full_path);
+      final downloader = Downloader.init();
+      await downloader.download(context, url, filesInPath[index].name);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Une erreur s'est produite. Le fichier n'a pas pu être téléchargé.",
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<String> getStringRessource(String path) async {
+    final response = await http.get(Uri.parse(parseGetExtPath(path)));
+
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+
+    throw Exception('Impossible de charger la ressource');
+  }
+
+  Future<Uint8List> getRawRessource(String path) async {
+    final response = await http.get(Uri.parse(parseGetExtPath(path)));
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    }
+
+    throw Exception('Impossible de charger la ressource');
+  }
+
+  String parentDirectoryPath() {
+    if (currentPath != "files/") {
+      String current = currentPath;
+      //remove last slash
+      current = current.substring(0, current.length);
+      List<String> splitted = current.split("/");
+      String result = "";
+
+      for (int i = 0; i < (splitted.length - 2); i++) {
+        result += "${splitted[i]}/";
+      }
+
+      return result;
+    }
+
+    return currentPath;
+  }
+
+  Future<FetchingReport> getPrevDir() async {
+    try {
+      final response = await http.get(
+        Uri.parse(parseGetExtPath(parentDirectoryPath())),
+      );
+      //final response = await http.get(Uri.parse("https://67b30ef1bc0165def8cfbbf0.mockapi.io/api/v1/connect"));
+      if (response.statusCode == 200) {
+        currentPath = parentDirectoryPath();
+        filesInPath = ServerFile.deserializeFiles(jsonDecode(response.body));
+        pathState = FetchingState.success;
+        notifyListeners();
+        return FetchingReport.success;
+      }
+
+      return FetchingReport.refused;
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  Future<FetchingReport> getNextDir(String dirPath) async {
+    try {
+      final response = await http.get(Uri.parse(parseGetExtPath(dirPath)));
+      //final response = await http.get(Uri.parse("https://67b30ef1bc0165def8cfbbf0.mockapi.io/api/v1/connect"));
+      if (response.statusCode == 200) {
+        currentPath = dirPath;
+        filesInPath = ServerFile.deserializeFiles(jsonDecode(response.body));
+        pathState = FetchingState.success;
+        notifyListeners();
+        return FetchingReport.success;
+      }
+
+      return FetchingReport.refused;
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  Future<FetchingReport> refreshDir() async {
+    try {
+      final response = await http.get(Uri.parse(parseGetPath()));
+      if (response.statusCode == 200) {
+        filesInPath = ServerFile.deserializeFiles(jsonDecode(response.body));
+        pathState = FetchingState.success;
+        notifyListeners();
+        return FetchingReport.success;
+      }
+
+      return FetchingReport.refused;
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  Future<FetchingReport> getFilesInPath() async {
+    try {
+      final response = await http.get(Uri.parse(parseGetPath()));
+      if (response.statusCode == 200) {
+        filesInPath = ServerFile.deserializeFiles(jsonDecode(response.body));
+        pathState = FetchingState.success;
+        notifyListeners();
+        return FetchingReport.success;
+      } else {
+        return FetchingReport.refused;
+      }
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  Future<List<ServerFile>> getFilesInRoot() async {
+      final response = await http.get(Uri.parse(parseUserRootPath()));
+      if (response.statusCode == 200) {
+        return  ServerFile.deserializeFiles(jsonDecode(response.body));
+  
+      } else {
+        return throw Exception('Impossible de récupérer les données');
+      }  
+  }
+
+  Future<void> initFilesInPath() async {
+    try {
+      currentPath = "files/";
+      final response = await http.get(Uri.parse(parseGetPath()));
+      //final response = await http.get(Uri.parse("https://67b30ef1bc0165def8cfbbf0.mockapi.io/api/v1/connect"));
+
+      if (response.statusCode == 200) {
+        filesInPath = ServerFile.deserializeFiles(jsonDecode(response.body));
+        pathState = FetchingState.success;
+      } else {
+        filesInPath = <ServerFile>[];
+        pathState = FetchingState.failure;
+      }
+    } catch (e) {
+      pathState = FetchingState.failure;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void resetFileInPath() {
+    pathState = FetchingState.init;
+    filesInPath.clear();
+    currentPath = "files/";
+    notifyListeners();
+  }
+
+  Future<FetchingReport> checkUser(String n, String p) async {
+    try {
+      final response = await http.get(Uri.parse(parseVerifPath(n, p)));
+      if (response.statusCode == 200 && n.isNotEmpty && p.isNotEmpty) {
+        connect(n, p);
+        return FetchingReport.success;
+      }
+
+      return FetchingReport.refused;
+    } catch (e) {
+      return FetchingReport.networkFail;
+    }
+  }
+
+  void disconnect() {
+    isConnected = false;
+    name = "null";
+    password = "null";
+    resetFileInPath();
+  }
+
+  void connect(String n, String p) {
+    isConnected = true;
+    name = n;
+    password = p;
+    resetFileInPath();
+  }
+}
