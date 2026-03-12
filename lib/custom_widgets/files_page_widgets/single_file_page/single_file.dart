@@ -34,7 +34,6 @@ class SingleFile extends StatelessWidget {
       "pdf" => PdfViewer.uri(
         Uri.parse(url),
         params: PdfViewerParams(
-          enableTextSelection: true,
           enableKeyboardNavigation: true,
           panEnabled: true,
         ),
