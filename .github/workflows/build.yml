@@ -46,7 +46,8 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          channel : stable
+          channel : master
+          flutter-version: '3.38.5'
       - run: flutter upgrade
 
       - name: Install Linux dependencies
